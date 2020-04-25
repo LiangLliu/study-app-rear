@@ -52,4 +52,5 @@ public interface StudentService {
      */
     boolean deleteById(Integer id);
 
+    boolean check(String telephone);
 }

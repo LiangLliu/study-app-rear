@@ -34,7 +34,7 @@ public class StudentServiceImpl implements StudentService {
      * 查询多条数据
      *
      * @param offset 查询起始位置
-     * @param limit 查询条数
+     * @param limit  查询条数
      * @return 对象列表
      */
     @Override
@@ -75,5 +75,17 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public boolean deleteById(Integer id) {
         return this.studentDao.deleteById(id) > 0;
+    }
+
+    /**
+     * 检查电话号码是否已经存在
+     *
+     * @param telephone 注册的电话号码
+     * @return 如果存在就返回false
+     */
+    @Override
+    public boolean check(String telephone) {
+        List<Student> students = studentDao.queryAll(Student.builder().telephone(telephone).build());
+        return students.size() == 0;
     }
 }
