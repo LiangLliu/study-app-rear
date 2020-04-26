@@ -88,4 +88,16 @@ public class StudentServiceImpl implements StudentService {
         List<Student> students = studentDao.queryAll(Student.builder().telephone(telephone).build());
         return students.size() == 0;
     }
+
+    @Override
+    public Student login(String telephone, String password) {
+        List<Student> students = studentDao.queryAll(Student.builder()
+                .telephone(telephone)
+                .password(password)
+                .build());
+        if (students.size() > 0) {
+            return students.get(0);
+        }
+        return null;
+    }
 }

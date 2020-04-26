@@ -5,38 +5,23 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
-import java.time.Instant;
 
 /**
  * @Author edwin-plus
- * Create Data: 2020/4/25 23:48
+ * Create Data: 2020/4/26 22:18
  */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class StudentRequest {
-    /**
-     * ID
-     */
-    @NotNull
-    private Integer id;
-    /**
-     * 用户名
-     */
-    private String username;
-
+public class LoginRequest {
     /**
      * 电话号码
      */
+    @NotNull
     private String telephone;
-
     /**
      * 密码
      */
+    @NotNull
     private String password;
-    /**
-     * 用户头像
-     */
-    private String avatarUrl;
-
 }
