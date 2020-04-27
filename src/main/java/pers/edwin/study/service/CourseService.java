@@ -52,4 +52,5 @@ public interface CourseService {
      */
     boolean deleteById(Integer id);
 
+    List<Course> queryAll();
 }

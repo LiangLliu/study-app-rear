@@ -55,7 +55,7 @@
     </select>
 
     <!--新增所有列-->
-    <insert id="insert" keyProperty="id" >
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
         insert into study.test_paper(submit, student_id, course_id, score, create_time)
         values (#{submit}, #{studentId}, #{courseId}, #{score}, #{createTime})
     </insert>

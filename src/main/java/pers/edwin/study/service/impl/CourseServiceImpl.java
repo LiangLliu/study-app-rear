@@ -34,7 +34,7 @@ public class CourseServiceImpl implements CourseService {
      * 查询多条数据
      *
      * @param offset 查询起始位置
-     * @param limit 查询条数
+     * @param limit  查询条数
      * @return 对象列表
      */
     @Override
@@ -75,5 +75,10 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public boolean deleteById(Integer id) {
         return this.courseDao.deleteById(id) > 0;
+    }
+
+    @Override
+    public List<Course> queryAll() {
+        return this.courseDao.queryAll(Course.builder().build());
     }
 }
