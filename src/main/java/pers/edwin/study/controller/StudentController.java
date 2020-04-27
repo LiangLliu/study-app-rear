@@ -60,7 +60,7 @@ public class StudentController {
                 .password(registerRequest.getPassword())
                 .integral(0)
                 .createTime(Instant.now())
-                .updateTime(Instant.now())
+                .updateTime(Instant.ofEpochSecond((Instant.now().getEpochSecond() - 25 * 60 * 60)))
                 .build());
 
         return ResultUtil.success(HttpStatus.CREATED);
