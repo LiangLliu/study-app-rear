@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="pers.edwin.study.dao.SelectTopicDao">
+
+    <resultMap type="pers.edwin.study.entity.SelectTopic" id="SelectTopicMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="title" column="title" jdbcType="VARCHAR"/>
+        <result property="optionsA" column="options_a" jdbcType="VARCHAR"/>
+        <result property="optionsB" column="options_b" jdbcType="VARCHAR"/>
+        <result property="optionsC" column="options_c" jdbcType="VARCHAR"/>
+        <result property="optionsD" column="options_d" jdbcType="VARCHAR"/>
+        <result property="right" column="right" jdbcType="VARCHAR"/>
+        <result property="course" column="course" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="SelectTopicMap">
+        select
+          id, title, options_a, options_b, options_c, options_d, right, course
+        from study.select_topic
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="SelectTopicMap">
+        select
+          id, title, options_a, options_b, options_c, options_d, right, course
+        from study.select_topic
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="SelectTopicMap">
+        select
+          id, title, options_a, options_b, options_c, options_d, right, course
+        from study.select_topic
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="title != null and title != ''">
+                and title = #{title}
+            </if>
+            <if test="optionsA != null and optionsA != ''">
+                and options_a = #{optionsA}
+            </if>
+            <if test="optionsB != null and optionsB != ''">
+                and options_b = #{optionsB}
+            </if>
+            <if test="optionsC != null and optionsC != ''">
+                and options_c = #{optionsC}
+            </if>
+            <if test="optionsD != null and optionsD != ''">
+                and options_d = #{optionsD}
+            </if>
+            <if test="right != null and right != ''">
+                and right = #{right}
+            </if>
+            <if test="course != null">
+                and course = #{course}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into study.select_topic(title, options_a, options_b, options_c, options_d, right, course)
+        values (#{title}, #{optionsA}, #{optionsB}, #{optionsC}, #{optionsD}, #{right}, #{course})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update study.select_topic
+        <set>
+            <if test="title != null and title != ''">
+                title = #{title},
+            </if>
+            <if test="optionsA != null and optionsA != ''">
+                options_a = #{optionsA},
+            </if>
+            <if test="optionsB != null and optionsB != ''">
+                options_b = #{optionsB},
+            </if>
+            <if test="optionsC != null and optionsC != ''">
+                options_c = #{optionsC},
+            </if>
+            <if test="optionsD != null and optionsD != ''">
+                options_d = #{optionsD},
+            </if>
+            <if test="right != null and right != ''">
+                right = #{right},
+            </if>
+            <if test="course != null">
+                course = #{course},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from study.select_topic where id = #{id}
+    </delete>
+
+</mapper>
