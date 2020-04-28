@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.Instant;
 import java.util.Date;
 import java.io.Serializable;
 
@@ -43,6 +44,6 @@ public class Nnowledge implements Serializable {
     /**
      * 创建时间
      */
-    private Date createTime;
+    private Instant createTime;
 
 }
