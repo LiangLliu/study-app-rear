@@ -52,4 +52,7 @@ public interface TeacherService {
      */
     boolean deleteById(Integer id);
 
+    boolean check(String telephone);
+
+    Teacher login(String telephone, String password);
 }

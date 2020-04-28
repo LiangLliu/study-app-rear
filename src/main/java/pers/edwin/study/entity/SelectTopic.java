@@ -5,20 +5,21 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
 import java.io.Serializable;
 
 /**
  * (SelectTopic)实体类
  *
  * @author makejava
- * @since 2020-04-28 00:24:36
+ * @since 2020-04-28 23:17:19
  */
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class SelectTopic implements Serializable {
-    private static final long serialVersionUID = -18875471388112108L;
+    private static final long serialVersionUID = 172964040312942671L;
     /**
      * 选择题主键
      */
@@ -51,5 +52,13 @@ public class SelectTopic implements Serializable {
      * 课程ID
      */
     private Integer course;
+    /**
+     * 创建者
+     */
+    private Integer createBy;
+    /**
+     * 创建时间
+     */
+    private Date createTime;
 
 }

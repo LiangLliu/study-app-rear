@@ -1,5 +1,6 @@
 package pers.edwin.study.service.impl;
 
+import pers.edwin.study.entity.Student;
 import pers.edwin.study.entity.Teacher;
 import pers.edwin.study.dao.TeacherDao;
 import pers.edwin.study.service.TeacherService;
@@ -34,7 +35,7 @@ public class TeacherServiceImpl implements TeacherService {
      * 查询多条数据
      *
      * @param offset 查询起始位置
-     * @param limit 查询条数
+     * @param limit  查询条数
      * @return 对象列表
      */
     @Override
@@ -76,4 +77,24 @@ public class TeacherServiceImpl implements TeacherService {
     public boolean deleteById(Integer id) {
         return this.teacherDao.deleteById(id) > 0;
     }
+
+    @Override
+    public boolean check(String telephone) {
+        List<Teacher> teachers = this.teacherDao.queryAll(Teacher.builder().telephone(telephone).build());
+        return teachers.size() == 0;
+    }
+
+    @Override
+    public Teacher login(String telephone, String password) {
+        List<Teacher> teachers = this.teacherDao.queryAll(Teacher.builder()
+                .telephone(telephone)
+                .password(password)
+                .build());
+        if (teachers.size() > 0) {
+            return teachers.get(0);
+        }
+        return null;
+    }
+
+
 }
