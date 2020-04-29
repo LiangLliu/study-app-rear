@@ -12,6 +12,14 @@
     </resultMap>
 
     <!--查询单个-->
+    <select id="searchByTitle" resultMap="NnowledgeMap">
+        select
+          id, titile, content, course, create_by, create_time
+        from study.nnowledge as n
+        WHERE n.`titile` LIKE #{title}
+    </select>
+
+    <!--查询单个-->
     <select id="queryById" resultMap="NnowledgeMap">
         select
           id, titile, content, course, create_by, create_time

@@ -52,4 +52,7 @@ public interface NnowledgeService {
      */
     boolean deleteById(Integer id);
 
+    List<Nnowledge> queryAll(Nnowledge query);
+
+    List<Nnowledge> searchByTitle(String title);
 }

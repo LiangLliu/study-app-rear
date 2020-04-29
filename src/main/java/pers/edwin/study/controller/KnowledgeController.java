@@ -4,6 +4,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import pers.edwin.study.dto.KnowledgeList;
+import pers.edwin.study.dto.NnowledgeDto;
 import pers.edwin.study.entity.Nnowledge;
 import pers.edwin.study.entity.Student;
 import pers.edwin.study.request.KnowledgeRequest;
@@ -15,6 +17,8 @@ import pers.edwin.study.util.ResultUtil;
 import javax.annotation.Resource;
 import javax.validation.Valid;
 import java.time.Instant;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * (Nnowledge)表控制层
@@ -49,4 +53,23 @@ public class KnowledgeController {
         return ResultUtil.success(HttpStatus.CREATED);
     }
 
+    @GetMapping("/selectOne")
+    public ResponseEntity selectOne(Integer id) {
+        return ResultUtil.success(HttpStatus.CREATED, NnowledgeDto.from(nnowledgeService.queryById(id)));
+    }
+
+    @GetMapping("/selectList")
+    public ResponseEntity selectList(Integer courseId) {
+        Nnowledge query = Nnowledge.builder().course(courseId).build();
+        List<Nnowledge> nnowledgeList = nnowledgeService.queryAll(query);
+        return ResultUtil.success(HttpStatus.CREATED, KnowledgeList.from(nnowledgeList));
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity search(@RequestParam(value = "courseId") Integer courseId,
+                                 @RequestParam(value = "name") String titleName) {
+        List<Nnowledge> nnowledgeList = nnowledgeService.searchByTitle("%" + titleName + "%");
+        List<Nnowledge> collect = nnowledgeList.stream().filter(it -> it.getCourse().equals(courseId)).collect(Collectors.toList());
+        return ResultUtil.success(HttpStatus.CREATED, NnowledgeDto.from(collect));
+    }
 }

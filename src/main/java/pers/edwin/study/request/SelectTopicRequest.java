@@ -1,65 +1,59 @@
-package pers.edwin.study.entity;
+package pers.edwin.study.request;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.Instant;
-import java.util.Date;
-import java.io.Serializable;
+import javax.validation.constraints.NotNull;
 
 /**
- * (SelectTopic)实体类
- *
- * @author makejava
- * @since 2020-04-30 01:04:47
+ * @Author edwin-plus
+ * Create Data: 2020/4/30 0:07
  */
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class SelectTopic implements Serializable {
-    private static final long serialVersionUID = -64314085481284516L;
-    /**
-     * 选择题主键
-     */
-    private Integer id;
+public class SelectTopicRequest {
+
     /**
      * 题目
      */
+    @NotNull
     private String title;
     /**
      * 选项A
      */
+    @NotNull
     private String optionsA;
     /**
      * 选项B
      */
+    @NotNull
     private String optionsB;
     /**
      * 选项C
      */
+    @NotNull
     private String optionsC;
     /**
      * 选项D
      */
+    @NotNull
     private String optionsD;
     /**
      * 正确选项
      */
+    @NotNull
     private String answer;
     /**
      * 课程ID
      */
-    private Integer course;
+    @NotNull
+    private Integer courseId;
+
     /**
      * 创建者
      */
+    @NotNull
     private Integer createBy;
-    /**
-     * 创建时间
-     */
-    private Instant createTime;
-
 }
