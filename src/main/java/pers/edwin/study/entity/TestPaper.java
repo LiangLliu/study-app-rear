@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.Instant;
 import java.util.Date;
 import java.io.Serializable;
 
@@ -12,14 +13,14 @@ import java.io.Serializable;
  * (TestPaper)实体类
  *
  * @author makejava
- * @since 2020-04-28 00:24:35
+ * @since 2020-05-01 21:24:06
  */
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class TestPaper implements Serializable {
-    private static final long serialVersionUID = 465086785201282092L;
+    private static final long serialVersionUID = 670021378822975305L;
     /**
      * 试卷主键
      */
@@ -43,6 +44,14 @@ public class TestPaper implements Serializable {
     /**
      * 创建时间
      */
-    private Date createTime;
+    private Instant createTime;
+    /**
+     * 总体数
+     */
+    private Integer totalQuestion;
+    /**
+     * 正确试题总数
+     */
+    private Integer correct;
 
 }
