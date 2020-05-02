@@ -60,7 +60,7 @@ public class KnowledgeController {
     public ResponseEntity selectList(@PathVariable Integer courseId) {
         Nnowledge query = Nnowledge.builder().course(courseId).build();
         List<Nnowledge> nnowledgeList = nnowledgeService.queryAll(query);
-        return ResultUtil.success(HttpStatus.CREATED, KnowledgeList.from(nnowledgeList));
+        return ResultUtil.success(HttpStatus.OK, NnowledgeDto.from(nnowledgeList));
     }
 
     @GetMapping("/search")
@@ -70,4 +70,12 @@ public class KnowledgeController {
         List<Nnowledge> collect = nnowledgeList.stream().filter(it -> it.getCourse().equals(courseId)).collect(Collectors.toList());
         return ResultUtil.success(HttpStatus.CREATED, NnowledgeDto.from(collect));
     }
+
+    @GetMapping("/selectTeacherList/{teacherId}")
+    public ResponseEntity selectTeacherList(@PathVariable Integer teacherId) {
+        Nnowledge query = Nnowledge.builder().createBy(teacherId).build();
+        List<Nnowledge> nnowledgeList = nnowledgeService.queryAll(query);
+        return ResultUtil.success(HttpStatus.CREATED, KnowledgeList.from(nnowledgeList));
+    }
+
 }

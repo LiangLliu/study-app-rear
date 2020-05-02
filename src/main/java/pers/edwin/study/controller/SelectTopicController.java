@@ -49,6 +49,13 @@ public class SelectTopicController {
         return ResultUtil.success(HttpStatus.CREATED, SelectTopicDto.from(selectTopicService.queryById(id)));
     }
 
+    @GetMapping("/selectTeacherList/{teacherId}")
+    public ResponseEntity selectTeacherList(@PathVariable Integer teacherId) {
+        SelectTopic build = SelectTopic.builder().createBy(teacherId).build();
+        List<SelectTopic> selectTopics = selectTopicService.queryAll(build);
+        return ResultUtil.success(HttpStatus.CREATED, SelectTopicDto.from(selectTopics));
+    }
+
     @PostMapping("/add")
     public ResponseEntity add(@RequestBody @Valid SelectTopicRequest request,
                               BindingResult bindingResult) {

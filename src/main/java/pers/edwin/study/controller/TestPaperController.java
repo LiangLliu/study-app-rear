@@ -5,10 +5,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import pers.edwin.study.converter.TestPaperConverter;
-import pers.edwin.study.dto.KnowledgeList;
-import pers.edwin.study.dto.NnowledgeDto;
-import pers.edwin.study.dto.TestPaperDto;
+import pers.edwin.study.dto.*;
 import pers.edwin.study.entity.Nnowledge;
+import pers.edwin.study.entity.SelectTopic;
 import pers.edwin.study.entity.TestPaper;
 import pers.edwin.study.request.KnowledgeRequest;
 import pers.edwin.study.request.TestPaperRequest;
@@ -46,7 +45,11 @@ public class TestPaperController {
      */
     @GetMapping("/selectOne/{id}")
     public ResponseEntity selectOne(@PathVariable Integer id) {
-        return ResultUtil.success(HttpStatus.OK, TestPaperDto.from(this.testPaperService.queryById(id)));
+        TestPaper testPaper = this.testPaperService.queryById(id);
+        if (testPaper == null) {
+            return ResultUtil.error(HttpStatus.NOT_ACCEPTABLE, "没有找到该题目");
+        }
+        return ResultUtil.success(HttpStatus.OK, TestPaperDto.from(testPaper));
     }
 
 
@@ -70,9 +73,15 @@ public class TestPaperController {
     public ResponseEntity selectList(@PathVariable Integer id) {
         List<TestPaper> testPaperList = this.testPaperService.queryAll(TestPaper.builder()
                 .studentId(id).build());
-
         return ResultUtil.success(HttpStatus.OK, TestPaperDto.from(testPaperList));
     }
 
 
+    @GetMapping("/analysis/{studentId}")
+    public ResponseEntity analysis(@PathVariable Integer studentId) {
+
+        TestPaper build = TestPaper.builder().studentId(studentId).build();
+        List<TestPaper> testPaperList = testPaperService.queryAll(build);
+        return ResultUtil.success(HttpStatus.CREATED, AnalysisDto.from(testPaperList));
+    }
 }
