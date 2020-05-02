@@ -75,7 +75,7 @@ public class KnowledgeController {
     public ResponseEntity selectTeacherList(@PathVariable Integer teacherId) {
         Nnowledge query = Nnowledge.builder().createBy(teacherId).build();
         List<Nnowledge> nnowledgeList = nnowledgeService.queryAll(query);
-        return ResultUtil.success(HttpStatus.CREATED, KnowledgeList.from(nnowledgeList));
+        return ResultUtil.success(HttpStatus.CREATED, NnowledgeDto.from(nnowledgeList));
     }
 
 }
