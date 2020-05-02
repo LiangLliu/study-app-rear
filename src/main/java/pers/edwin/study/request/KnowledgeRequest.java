@@ -20,7 +20,7 @@ public class KnowledgeRequest {
      * 标题
      */
     @NotNull
-    private String titile;
+    private String title;
     /**
      * 内容
      */

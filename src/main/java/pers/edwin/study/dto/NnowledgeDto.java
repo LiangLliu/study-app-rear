@@ -27,7 +27,7 @@ public class NnowledgeDto {
     /**
      * 标题
      */
-    private String titile;
+    private String title;
     /**
      * 内容
      */
@@ -47,7 +47,7 @@ public class NnowledgeDto {
     public static NnowledgeDto from(Nnowledge nnowledge) {
         return NnowledgeDto.builder()
                 .id(nnowledge.getId())
-                .titile(nnowledge.getTitile())
+                .title(nnowledge.getTitile())
                 .content(nnowledge.getContent())
                 .courseId(nnowledge.getCourse())
                 .course(CourseEnum.from(nnowledge.getCourse()))

@@ -1,19 +1,26 @@
 package pers.edwin.study.controller;
 
+import io.swagger.models.auth.In;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import pers.edwin.study.dto.KnowledgeList;
 import pers.edwin.study.dto.SelectTopicDto;
+import pers.edwin.study.entity.Nnowledge;
 import pers.edwin.study.entity.SelectTopic;
 import pers.edwin.study.request.SelectTopicRequest;
 import pers.edwin.study.service.SelectTopicService;
 import org.springframework.web.bind.annotation.*;
+import pers.edwin.study.util.ListUtil;
 import pers.edwin.study.util.ResultUtil;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * (SelectTopic)表控制层
@@ -62,4 +69,31 @@ public class SelectTopicController {
                 .build());
         return ResultUtil.success(HttpStatus.CREATED);
     }
+
+
+    /**
+     * 根据课程id 生成一套试卷
+     *
+     * @param courseId
+     * @return
+     */
+    @GetMapping("/generate/{courseId}/{size}")
+    public ResponseEntity generate(@PathVariable Integer courseId, @PathVariable Integer size) {
+        SelectTopic build = SelectTopic.builder()
+                .course(courseId)
+                .build();
+        List<SelectTopic> selectTopicList = selectTopicService.queryAll(build);
+        int listSize = selectTopicList.size();
+        if (listSize <= size) {
+            return ResultUtil.success(HttpStatus.OK, SelectTopicDto.from(selectTopicList));
+        }
+
+        List<SelectTopic> selectTopics =
+                ListUtil.getRandomIntegerList(0, listSize, size)
+                        .stream().map(selectTopicList::get)
+                        .collect(Collectors.toList());
+
+        return ResultUtil.success(HttpStatus.OK, SelectTopicDto.from(selectTopics));
+    }
 }
+

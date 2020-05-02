@@ -7,9 +7,7 @@ import org.springframework.validation.BindingResult;
 import pers.edwin.study.dto.KnowledgeList;
 import pers.edwin.study.dto.NnowledgeDto;
 import pers.edwin.study.entity.Nnowledge;
-import pers.edwin.study.entity.Student;
 import pers.edwin.study.request.KnowledgeRequest;
-import pers.edwin.study.request.RegisterRequest;
 import pers.edwin.study.service.NnowledgeService;
 import org.springframework.web.bind.annotation.*;
 import pers.edwin.study.util.ResultUtil;
@@ -44,7 +42,7 @@ public class KnowledgeController {
             return ResultUtil.error(HttpStatus.NOT_ACCEPTABLE, "添加知识点时必须填写完整 ");
         }
         nnowledgeService.insert(Nnowledge.builder()
-                .titile(request.getTitile())
+                .titile(request.getTitle())
                 .content(request.getContent())
                 .course(request.getCourse())
                 .createBy(request.getCreateBy())
@@ -53,13 +51,13 @@ public class KnowledgeController {
         return ResultUtil.success(HttpStatus.CREATED);
     }
 
-    @GetMapping("/selectOne")
-    public ResponseEntity selectOne(Integer id) {
+    @GetMapping("/selectOne/{id}")
+    public ResponseEntity selectOne(@PathVariable Integer id) {
         return ResultUtil.success(HttpStatus.CREATED, NnowledgeDto.from(nnowledgeService.queryById(id)));
     }
 
-    @GetMapping("/selectList")
-    public ResponseEntity selectList(Integer courseId) {
+    @GetMapping("/selectList/{courseId}")
+    public ResponseEntity selectList(@PathVariable Integer courseId) {
         Nnowledge query = Nnowledge.builder().course(courseId).build();
         List<Nnowledge> nnowledgeList = nnowledgeService.queryAll(query);
         return ResultUtil.success(HttpStatus.CREATED, KnowledgeList.from(nnowledgeList));

@@ -52,4 +52,5 @@ public interface SelectTopicService {
      */
     boolean deleteById(Integer id);
 
+    List<SelectTopic> queryAll(SelectTopic build);
 }

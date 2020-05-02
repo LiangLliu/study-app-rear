@@ -26,7 +26,7 @@ public class KnowledgeList {
     /**
      * 标题
      */
-    private String titile;
+    private String title;
     /**
      * 课程分类
      */
@@ -38,7 +38,7 @@ public class KnowledgeList {
     public static KnowledgeList from(Nnowledge nnowledge) {
         return KnowledgeList.builder()
                 .id(nnowledge.getId())
-                .titile(nnowledge.getTitile())
+                .title(nnowledge.getTitile())
                 .courseId(nnowledge.getCourse())
                 .course(CourseEnum.from(nnowledge.getCourse()))
                 .build();

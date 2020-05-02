@@ -3,14 +3,24 @@ package pers.edwin.study.controller;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import pers.edwin.study.converter.TestPaperConverter;
+import pers.edwin.study.dto.KnowledgeList;
 import pers.edwin.study.dto.NnowledgeDto;
 import pers.edwin.study.dto.TestPaperDto;
+import pers.edwin.study.entity.Nnowledge;
 import pers.edwin.study.entity.TestPaper;
+import pers.edwin.study.request.KnowledgeRequest;
+import pers.edwin.study.request.TestPaperRequest;
 import pers.edwin.study.service.TestPaperService;
 import org.springframework.web.bind.annotation.*;
 import pers.edwin.study.util.ResultUtil;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
+import java.time.Instant;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * (TestPaper)表控制层
@@ -20,7 +30,7 @@ import javax.annotation.Resource;
  */
 @Slf4j
 @RestController
-@RequestMapping("testPaper")
+@RequestMapping("/testPaper")
 public class TestPaperController {
     /**
      * 服务对象
@@ -34,9 +44,34 @@ public class TestPaperController {
      * @param id 主键
      * @return 单条数据
      */
-    @GetMapping("/selectOne")
-    public ResponseEntity selectOne(Integer id) {
+    @GetMapping("/selectOne/{id}")
+    public ResponseEntity selectOne(@PathVariable Integer id) {
         return ResultUtil.success(HttpStatus.OK, TestPaperDto.from(this.testPaperService.queryById(id)));
+    }
+
+
+    @PostMapping("/answer")
+    public ResponseEntity answer(@RequestBody @Valid TestPaperRequest request,
+                                 BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            log.error("【用户作答结果】参数不正确，request = {}", request);
+            return ResultUtil.error(HttpStatus.NOT_ACCEPTABLE, "用户作答时必须填写完整 ");
+        }
+
+        if (!(request.getSubmit().size() > 0)) {
+            return ResultUtil.error(HttpStatus.NOT_ACCEPTABLE, "没有提交答案列表");
+        }
+        TestPaper testPaper = TestPaperConverter.converte(request);
+        testPaperService.insert(testPaper);
+        return ResultUtil.success(HttpStatus.CREATED);
+    }
+
+    @GetMapping("/selectByUserList/{id}")
+    public ResponseEntity selectList(@PathVariable Integer id) {
+        List<TestPaper> testPaperList = this.testPaperService.queryAll(TestPaper.builder()
+                .studentId(id).build());
+
+        return ResultUtil.success(HttpStatus.OK, TestPaperDto.from(testPaperList));
     }
 
 

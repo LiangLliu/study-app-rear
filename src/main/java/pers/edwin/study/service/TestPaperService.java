@@ -52,4 +52,5 @@ public interface TestPaperService {
      */
     boolean deleteById(Integer id);
 
+    List<TestPaper> queryAll(TestPaper testPaper);
 }

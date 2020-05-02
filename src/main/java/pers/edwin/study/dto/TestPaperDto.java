@@ -1,12 +1,16 @@
 package pers.edwin.study.dto;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import pers.edwin.study.entity.TestPaper;
 import pers.edwin.study.enums.CourseEnum;
+import pers.edwin.study.request.AnswerRequest;
 import pers.edwin.study.service.StudentService;
+import pers.edwin.study.util.serialization.CompressUtil;
 
 import java.time.Instant;
 import java.util.Date;
@@ -29,7 +33,7 @@ public class TestPaperDto {
     /**
      * 提交的表单
      */
-    private String submit;
+    private List<AnswerRequest> submit;
     /**
      * 学生ID
      */
@@ -57,10 +61,15 @@ public class TestPaperDto {
      */
     private Integer correct;
 
+    public static List<TestPaperDto> from(List<TestPaper> testPaperList) {
+        return testPaperList.stream().map(TestPaperDto::from).collect(Collectors.toList());
+    }
+
+
     public static TestPaperDto from(TestPaper testPaper) {
         return TestPaperDto.builder()
                 .id(testPaper.getId())
-                .submit(testPaper.getSubmit())
+                .submit(getSubmit(testPaper.getSubmit()))
                 .correct(testPaper.getCorrect())
                 .courseId(testPaper.getCourseId())
                 .course(CourseEnum.from(testPaper.getCourseId()))
@@ -71,8 +80,11 @@ public class TestPaperDto {
                 .build();
     }
 
-    public static List<TestPaperDto> from(List<TestPaper> testPaperList) {
-        return testPaperList.stream().map(TestPaperDto::from).collect(Collectors.toList());
+    private static List<AnswerRequest> getSubmit(String submit) {
+        return new Gson()
+                .fromJson(submit, new TypeToken<List<AnswerRequest>>() {
+                }.getType());
     }
+
 
 }
